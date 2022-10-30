@@ -25,18 +25,24 @@ const renderPokemon = async (pokemon) => {
 
     const data = await fetchPokemon(pokemon)
     if (data) {
+        let pokemonAnimated = data['sprites']['versions']['generation-v']['black-white']['animated']['front_default'];
+        let pokemonStatic = data['sprites']['versions']['generation-v']['black-white']['front_default'];
+        
         pokemonImage.style.display = 'block'
         pokemonName.innerHTML = data.name;
         pokemonNumber.innerHTML = data.id
-        pokemonImage.src = data['sprites']['versions']['generation-v']['black-white']['animated']['front_default']
+        if (pokemonAnimated) {
+            pokemonImage.src = pokemonAnimated
+        } else {
+            pokemonImage.src = pokemonStatic
+        }
         input.value = ''
         searchPokemon = data.id
     } else {
         pokemonImage.style.display = 'none'
         pokemonName.innerHTML = 'Não existe :C';
         pokemonNumber.innerHTML = '';
-    }
-
+    }  
 }
 
 form.addEventListener('submit', (event) => {
